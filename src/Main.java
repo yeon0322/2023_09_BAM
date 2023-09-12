@@ -8,9 +8,16 @@ public class Main {
 //		String cmd = sc.nextLine();
 // 		int cmd = sc.nextInt();
 		
-		String cmd = sc.next();
 		
-		System.out.println("[ " + cmd + " ]");
+		while(true) {
+			System.out.println("명령어");
+			String command = sc.nextLine();
+			
+			if(command.equals("exit")) {
+				break;
+			}
+		}
+		
 		System.out.println("== 프로그램 끝 ==");
 	}
 }
