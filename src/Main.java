@@ -152,6 +152,7 @@ class Article {
    String body;
    int hit;
 
+
  
 
    Article(int id, String regDate, String updateDate, String title, String body) {
