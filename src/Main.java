@@ -45,7 +45,7 @@ public class Main {
             System.out.printf("내용 : ");
             String body = sc.nextLine();
 
-            Article article = new Article(id, regDate, title, body);
+            Article article = new Article(id, regDate, regDate, title, body);
             articles.add(article);
 
             System.out.printf("%d번글이 생성되었습니다.\n", id);
@@ -63,7 +63,8 @@ public class Main {
                if (article.id == id) {
                   found = true;
                   System.out.println("번호 : " + article.id);
-                  System.out.println("날짜 : " + article.regDate);
+                  System.out.println("작성날짜 : " + article.regDate);
+                  System.out.println("수정날짜 : " + article.updateDate);
                   System.out.println("제목 : " + article.title);
                   System.out.println("내용 : " + article.body);
                   break;
@@ -74,36 +75,66 @@ public class Main {
                System.out.printf("%d번 게시물은 없어\n", id);
             }
 
-         } else if(command.startsWith("article delete")) {
-        	 String[] commandDiv = command.split(" "); //article delete 1
-        	 int id = Integer.parseInt(commandDiv[2]);
-        	 
-        	 int foundIndex = -1;
-        	 
-        	
-        	 for(int i =0; i <articles.size();i++) {
-        		 Article article = articles.get(i);
-        		 if(article.id == id) {
-        			 foundIndex = i;
-        			 break;
-        		 }
-        	 }
-        	 
-        	 if(foundIndex == -1) {
-        		 System.out.printf("%d번 게시물은 없어\n",id);
-        		 continue;
-        	 }
-        	 
-        	articles.remove(foundIndex);
-        	System.out.println(id + "번 글을 삭제했어");
-        	
-         }else {
-        	 System.out.println("존재하지 않는 명령어입니다.");
-        	 continue;
+         } else if (command.startsWith("article modify")) {
+
+            String[] commandDiv = command.split(" ");
+
+            int id = Integer.parseInt(commandDiv[2]);
+
+            Article foundArticle = null;
+
+            for (int i = 0; i < articles.size(); i++) {
+               Article article = articles.get(i);
+               if (article.id == id) {
+                  foundArticle = article;
+                  break;
+               }
+            }
+
+            if (foundArticle == null) {
+               System.out.printf("%d번 게시물은 없어\n", id);
+               continue;
+            }
+
+            System.out.printf("제목 : ");
+            String newTitle = sc.nextLine();
+            System.out.printf("내용 : ");
+            String newBody = sc.nextLine();
+
+            String updateDate = Util.getNow();
+            foundArticle.title = newTitle;
+            foundArticle.body = newBody;
+            foundArticle.updateDate = updateDate;
+
+         } else if (command.startsWith("article delete")) {
+
+            String[] commandDiv = command.split(" "); // article delete 1
+
+            int id = Integer.parseInt(commandDiv[2]);
+
+            int foundIndex = -1;
+
+            for (int i = 0; i < articles.size(); i++) {
+               Article article = articles.get(i);
+               if (article.id == id) {
+                  foundIndex = i;
+                  break;
+               }
+            }
+
+            if (foundIndex == -1) {
+               System.out.printf("%d번 게시물은 없어\n", id);
+               continue;
+            }
+
+            articles.remove(foundIndex);
+            System.out.println(id + "번 글을 삭제했어");
+
+         } else {
+            System.out.println("존재하지 않는 명령어입니다");
+            continue;
          }
-         
       }
-      
 
       System.out.println("== 프로그램 종료 ==");
 
@@ -114,6 +145,7 @@ public class Main {
 class Article {
    int id;
    String regDate;
+   String updateDate;
    String title;
    String body;
 
@@ -123,9 +155,10 @@ class Article {
       this.body = body;
    }
 
-   Article(int id, String regDate, String title, String body) {
+   Article(int id, String regDate, String updateDate, String title, String body) {
       this.id = id;
       this.regDate = regDate;
+      this.updateDate = updateDate;
       this.title = title;
       this.body = body;
    }
