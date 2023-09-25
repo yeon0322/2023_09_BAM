@@ -74,11 +74,35 @@ public class Main {
                System.out.printf("%d번 게시물은 없어\n", id);
             }
 
-         } else {
-            System.out.println("존재하지 않는 명령어입니다");
-            continue;
+         } else if(command.startsWith("article delete")) {
+        	 String[] commandDiv = command.split(" "); //article delete 1
+        	 int id = Integer.parseInt(commandDiv[2]);
+        	 
+        	 int foundIndex = -1;
+        	 
+        	 for(int i =0; i <articles.size();i++) {
+        		 Article article = articles.get(i);
+        		 if(article.id == id) {
+        			 foundIndex = i;
+        			 break;
+        		 }
+        	 }
+        	 
+        	 if(foundIndex == -1) {
+        		 System.out.printf("%d번 게시물은 없어\n",id);
+        		 continue;
+        	 }
+        	 
+        	articles.remove(foundIndex);
+        	System.out.println(id + "번 글을 삭제했어");
+        	
+         }else {
+        	 System.out.println("존재하지 않는 명령어입니다.");
+        	 continue;
          }
+         
       }
+      
 
       System.out.println("== 프로그램 종료 ==");
 
